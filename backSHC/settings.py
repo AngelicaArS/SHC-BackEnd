@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+SIMPLE_JWT = {
+            'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+            'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+            'ROTATE_REFRESH_TOKENS': False,
+        'BLACKLIST_AFTER_ROTATION': True,
+            'UPDATE_LAST_LOGIN': False,
+
+            'ALGORITHM': 'HS256',
+            'USER_ID_FIELD': 'id',
+            'USER_ID_CLAIM': 'user_id',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,6 +61,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+            'DEFAULT_PERMISSION_CLASSES': (
+                'rest_framework.permissions.AllowAny',
+            ),
+            'DEFAULT_AUTHENTICATION_CLASSES': (
+                'rest_framework_simplejwt.authentication.JWTAuthentication',
+            )
+}
+
+AUTH_USER_MODEL = 'backSHCApp.User'
 
 ROOT_URLCONF = 'backSHC.urls'
 
@@ -74,10 +98,14 @@ WSGI_APPLICATION = 'backSHC.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+'default': {
+'ENGINE': 'django.db.backends.postgresql_psycopg2',
+'NAME': 'dfrnofe0m8udm9',
+'USER': 'ksfazpaoghjqnf',
+'PASSWORD': 'df90c5c8534a4f1eebb2160f2809796f8e5db8dd9bdf3ce83c7e8b2f3d12f0f7',
+'HOST': 'ec2-3-214-2-141.compute-1.amazonaws.com',
+'PORT': '5432',
+}
 }
 
 
